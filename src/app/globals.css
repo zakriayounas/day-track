@@ -23,11 +23,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .brand { align-items: center; color: var(--ink); display: flex; font-size: 16px; font-weight: bold; gap: 8px; letter-spacing: -.4px; padding: 0 8px 22px; text-decoration: none; }
 .brand-mark { align-items: center; background: var(--accent); color: white; display: inline-flex; font-size: 15px; height: 24px; justify-content: center; width: 24px; }
 .brand-beta { border: 1px solid #e6e6e2; color: #777972; font: 9px Arial, sans-serif; letter-spacing: .7px; margin-left: 3px; padding: 3px 4px; }
-.workspace-switch { align-items: center; background: white; border: 1px solid var(--line); display: flex; gap: 8px; margin-bottom: 25px; padding: 8px; text-align: left; width: 100%; }
-.workspace-avatar { align-items: center; background: #e7eee9; color: var(--accent); display: inline-flex; font-size: 12px; height: 28px; justify-content: center; width: 28px; }
-.workspace-copy, .profile-copy { display: flex; flex: 1; flex-direction: column; gap: 3px; min-width: 0; }
-.workspace-copy b, .profile-copy b { font-size: 12px; font-weight: 600; }
-.workspace-copy small, .profile-copy small { color: var(--muted); font-size: 12px; }
+.profile-copy { display: flex; flex: 1; flex-direction: column; gap: 3px; min-width: 0; }
+.profile-copy b { font-size: 12px; font-weight: 600; }
+.profile-copy small { color: var(--muted); font-size: 12px; }
 .chevron { color: #777; font-size: 14px; }
 .side-section-label, .eyebrow, .summary-label { color: #898b85; font-family: Arial, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: .85px; }
 .side-section-label { margin: 0 9px 8px; }
@@ -409,8 +407,7 @@ kbd { background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28)
 body { font-size: 14px; }
 .side-section-label, .eyebrow, .summary-label { font-size: 12px; }
 .nav-link { font-size: 13px; }
-.workspace-copy b, .profile-copy b { font-size: 12px; }
-.workspace-copy small, .profile-copy small { font-size: 12px; }
+.profile-copy b, .profile-copy small { font-size: 12px; }
 .page-subtitle { font-size: 12px; }
 .panel-caption { font-size: 12px; }
 .summary-note { font-size: 12px; }
@@ -474,8 +471,7 @@ body { font-size: 14px; }
   .sidebar { flex-basis: 52px; padding: 12px 6px; }
   .brand { justify-content: center; padding: 0 0 19px; }
   .brand > span:not(.brand-mark) { display: none; }
-  .workspace-switch { justify-content: center; margin-bottom: 19px; padding: 6px 0; }
-  .workspace-copy, .workspace-switch .chevron, .side-section-label, .nav-link > span, .release-mini, .profile-copy, .profile-row > svg { display: none; }
+  .side-section-label, .nav-link > span, .release-mini, .profile-copy, .profile-row > svg { display: none; }
   .nav-link { justify-content: center; padding: 10px 0; }
   .profile-row { justify-content: center; padding: 12px 0 0; }
   .profile-menu-wrap { position: static; }

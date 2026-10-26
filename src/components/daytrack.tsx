@@ -560,7 +560,6 @@ export default function DayTrack() {
     <main className="app-shell">
       <aside className="sidebar">
         <a className="brand" href="#"><span className="brand-mark">d.</span><span>daytrack</span><span className="brand-beta">TEAM</span></a>
-        <button className="workspace-switch"><span className="workspace-avatar">{currentUser.display_name[0]?.toUpperCase() ?? "D"}</span><span className="workspace-copy"><b>Team workspace</b><small>{currentUser.role === "admin" ? "Admin workspace" : "Member workspace"}</small></span><span className="chevron">⌄</span></button>
         <div className="sidebar-scroll">
           <div className="side-section-label">WORKSPACE</div>
           <nav className="nav-list" aria-label="Main navigation">
