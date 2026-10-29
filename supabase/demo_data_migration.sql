@@ -2,8 +2,12 @@ create table if not exists public.workspace_settings (
   id smallint primary key default 1 check (id = 1),
   demo_loaded_at timestamptz,
   demo_loaded_by uuid references public.profiles(id) on delete set null,
+  demo_prompt_dismissed_at timestamptz,
   created_at timestamptz not null default now()
 );
+
+alter table public.workspace_settings
+  add column if not exists demo_prompt_dismissed_at timestamptz;
 
 insert into public.workspace_settings (id) values (1)
 on conflict (id) do nothing;
@@ -124,3 +128,29 @@ $$;
 
 revoke all on function public.load_demo_data_once() from public;
 grant execute on function public.load_demo_data_once() to authenticated;
+
+create or replace function public.dismiss_demo_prompt_once()
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if auth.uid() is null or not public.is_admin() then
+    raise exception 'Only an active admin can dismiss workspace setup';
+  end if;
+
+  update public.workspace_settings
+  set demo_prompt_dismissed_at = now()
+  where id = 1
+    and demo_loaded_at is null
+    and demo_prompt_dismissed_at is null;
+
+  if not found and not exists (select 1 from public.workspace_settings where id = 1) then
+    raise exception 'Workspace settings row is missing';
+  end if;
+end;
+$$;
+
+revoke all on function public.dismiss_demo_prompt_once() from public;
+grant execute on function public.dismiss_demo_prompt_once() to authenticated;

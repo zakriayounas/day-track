@@ -4,6 +4,7 @@ import { type FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import PasswordVisibilityButton from "@/components/password-visibility-button";
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -14,6 +15,8 @@ export default function ResetPasswordForm() {
   const [hasSession, setHasSession] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [busy, setBusy] = useState(false);
@@ -85,8 +88,8 @@ export default function ResetPasswordForm() {
         <h1>{isInvite ? "Set your password" : "Reset your password"}</h1>
         <p>{isInvite ? "Choose a password to finish joining your DayTrack workspace." : "Choose a new password for your DayTrack account."}</p>
         {checkingSession ? <div className="auth-info" role="status">Verifying your secure link…</div> : hasSession ? <>
-          <label className="form-label" htmlFor="new-password">New password<input id="new-password" type="password" autoComplete="new-password" minLength={8} required value={password} onChange={(event) => setPassword(event.target.value)} /></label>
-          <label className="form-label" htmlFor="confirm-password">Confirm new password<input id="confirm-password" type="password" autoComplete="new-password" minLength={8} required value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} /></label>
+          <label className="form-label" htmlFor="new-password">New password<div className="password-field-wrap"><input id="new-password" type={passwordVisible ? "text" : "password"} autoComplete="new-password" minLength={8} required value={password} onChange={(event) => setPassword(event.target.value)} /><PasswordVisibilityButton visible={passwordVisible} onToggle={() => setPasswordVisible((visible) => !visible)} /></div></label>
+          <label className="form-label" htmlFor="confirm-password">Confirm new password<div className="password-field-wrap"><input id="confirm-password" type={confirmPasswordVisible ? "text" : "password"} autoComplete="new-password" minLength={8} required value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} /><PasswordVisibilityButton visible={confirmPasswordVisible} onToggle={() => setConfirmPasswordVisible((visible) => !visible)} /></div></label>
           <small className="password-hint">Use at least 8 characters.</small>
           {error && <div className="auth-error" role="alert">{error}</div>}
           {success && <div className="auth-success" role="status">{success}</div>}

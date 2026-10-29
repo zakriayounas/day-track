@@ -7,9 +7,22 @@ import PublicRelease from "@/components/public-release";
 
 type PublicRelease = {
   name: string;
+  status: string;
   target_date: string | null;
   summary: string | null;
   release_notes: string | null;
+  items: {
+    reference: string;
+    title: string;
+    type: string;
+    status: string;
+    priority: string;
+    due_date: string | null;
+    tags: string[];
+    body: string;
+    test_steps: string;
+    platforms: string[];
+  }[];
   platforms: { name: string }[];
   sql_queries: { title: string; sql: string; platform: string | null; notes: string | null }[];
   pre_steps: { title: string }[];

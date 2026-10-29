@@ -2,6 +2,8 @@
 
 A compact team workspace for tasks, issues, notes, reminders, and release checklists. Built with Next.js App Router, TypeScript, Tailwind CSS, Supabase Auth, and Supabase Postgres.
 
+Workspace sections have shareable routes: `/dashboard`, `/my-items`, `/items`, `/notes`, `/releases`, `/reminders`, `/team`, `/profile`, and `/settings`.
+
 ## Requirements
 
 - Node.js 20.9 or newer
@@ -46,6 +48,24 @@ If you ran the earlier version of `schema.sql` before the one-time sample loader
 If you already applied that migration before team invitations were added, run the updated migration again to add/backfill profile email addresses and update the auth trigger. Restart the dev server after adding `SUPABASE_SERVICE_ROLE_KEY` to `.env.local`.
 
 If the database schema was installed before item comments were connected, run [`supabase/comments_migration.sql`](./supabase/comments_migration.sql) in the SQL Editor. It grants comment update privileges and makes comment edits/deletes owner-only through RLS. Run the updated migration again if you already ran an earlier version.
+
+If the database schema was installed before profile settings were added, run [`supabase/profile_settings_migration.sql`](./supabase/profile_settings_migration.sql) in the SQL Editor to enable safe display-name updates.
+
+If the database schema was installed before QA test steps were added to tasks, run [`supabase/task_test_steps_migration.sql`](./supabase/task_test_steps_migration.sql) in the SQL Editor.
+
+If the database schema was installed before public task links were added, run [`supabase/public_task_sharing_migration.sql`](./supabase/public_task_sharing_migration.sql) in the SQL Editor. Task owners, assignees, and admins can create or revoke a public read-only task link; anyone with an active link can view the task and post a guest comment.
+
+If the database schema was installed before guest comments were displayed in the task drawer, run [`supabase/public_task_guest_comments_migration.sql`](./supabase/public_task_guest_comments_migration.sql) after `public_task_sharing_migration.sql`. It adds a permission-checked RPC so authenticated workspace members can read guest comments without direct access to the private guest-comment table.
+
+If the database schema was installed before multi-platform item selection was added, run [`supabase/item_platforms_migration.sql`](./supabase/item_platforms_migration.sql) after the public task sharing migration. It creates the item-platform relationship table, preserves existing item platform assignments, and enables selecting multiple platforms when creating an item.
+
+If the database schema was installed before release closing, editing, platform assignment, and public reports were added, run [`supabase/release_sharing_and_closure_migration.sql`](./supabase/release_sharing_and_closure_migration.sql) after `item_platforms_migration.sql`. It adds the closed release status, blocks changes to closed release content, and enables admins to create and edit releases with platform assignments and share public reports with associated task details. Re-run the updated migration if it was previously applied.
+
+If the database schema was installed before shared drag-and-drop item ordering was added, run [`supabase/item_ordering_migration.sql`](./supabase/item_ordering_migration.sql) after `item_platforms_migration.sql`. It adds a workspace-wide saved order for items, notes, and reminders.
+
+If the database schema was installed before item platform assignments could be edited from the item details drawer, run [`supabase/item_detail_edit_migration.sql`](./supabase/item_detail_edit_migration.sql) after `item_platforms_migration.sql`. It adds the permission-checked RPC used to save platform changes and keeps public task pages in sync with multi-platform assignments. Re-run the updated migration if you already applied an earlier version.
+
+If the database schema was installed before first-time setup dismissal was added, run the updated [`supabase/demo_data_migration.sql`](./supabase/demo_data_migration.sql) in the SQL Editor.
 
 ## Create the first admin
 

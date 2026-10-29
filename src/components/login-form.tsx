@@ -4,6 +4,7 @@ import { type FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import PasswordVisibilityButton from "@/components/password-visibility-button";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function LoginForm() {
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const [resetMode, setResetMode] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -64,7 +66,7 @@ export default function LoginForm() {
         <h1>{resetMode ? "Reset your password" : "Welcome back"}</h1>
         <p>{resetMode ? "Enter your account email and we’ll send you a secure reset link." : "Sign in to pick up where your team left off."}</p>
         <label className="form-label" htmlFor="email">Email address<input id="email" name="email" type="email" autoComplete="email" required /></label>
-        {!resetMode && <label className="form-label" htmlFor="password">Password<input id="password" name="password" type="password" autoComplete="current-password" required /></label>}
+        {!resetMode && <label className="form-label" htmlFor="password">Password<div className="password-field-wrap"><input id="password" name="password" type={passwordVisible ? "text" : "password"} autoComplete="current-password" required /><PasswordVisibilityButton visible={passwordVisible} onToggle={() => setPasswordVisible((visible) => !visible)} /></div></label>}
         {error && <div className="auth-error" role="alert">{error}</div>}
         {notice && <div className="auth-success" role="status">{notice}</div>}
         <button className="primary-button auth-submit" disabled={busy}>{busy ? resetMode ? "Sending link..." : "Signing in..." : resetMode ? "Send reset link" : "Sign in"}</button>
